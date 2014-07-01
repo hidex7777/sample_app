@@ -41,4 +41,25 @@ describe "Micropost Pages" do
 			end
 		end
 	end
+
+	describe "microposts count correction" do
+		before { FactoryGirl.create(:micropost, user: user) }
+		describe "as correct user" do
+			before { visit root_path }
+
+			it "should have 1 micropost" do
+				expect(page).to have_content('1 micropost')
+			end
+
+			describe "add 1 micropost" do
+				before do
+					fill_in 'micropost_content', with: "Lorem ipsum"
+					click_button "Post"
+				end
+				it "should have 2 microposts" do
+					expect(page).to have_content('2 microposts')
+				end
+			end
+		end
+	end
 end
